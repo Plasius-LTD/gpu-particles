@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Plasius GPU Particles Demo</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="page">
+      <header class="hero">
+        <div>
+          <p class="eyebrow">@plasius/gpu-particles</p>
+          <h1>Particle Effects Demo</h1>
+          <p class="lead">
+            Multi-scene preview of GPU worker particle effects: fire, sparks, text overlays,
+            rain, snow, and fireworks. Each scene uses the gpu-worker job assembly pipeline.
+          </p>
+        </div>
+        <div id="status" class="status">Initializing WebGPU…</div>
+      </header>
+
+      <section class="scenes">
+        <article class="scene">
+          <div class="scene__header">
+            <h2>Fire Torch</h2>
+            <span>flame + smoke</span>
+          </div>
+          <canvas id="scene-fire" width="360" height="220"></canvas>
+        </article>
+
+        <article class="scene">
+          <div class="scene__header">
+            <h2>Sparks</h2>
+            <span>burst scatter</span>
+          </div>
+          <canvas id="scene-sparks" width="360" height="220"></canvas>
+        </article>
+
+        <article class="scene">
+          <div class="scene__header">
+            <h2>Text Overlay</h2>
+            <span>0–9999 from above the box</span>
+          </div>
+          <canvas id="scene-text" width="360" height="220"></canvas>
+        </article>
+
+        <article class="scene">
+          <div class="scene__header">
+            <h2>Rain</h2>
+            <span>intensity control</span>
+          </div>
+          <canvas id="scene-rain" width="360" height="220"></canvas>
+          <div class="scene__controls">
+            <label>
+              Intensity
+              <input id="rain-intensity" type="range" min="0" max="1" step="0.01" value="0.65" />
+              <span id="rain-value">65%</span>
+            </label>
+          </div>
+        </article>
+
+        <article class="scene">
+          <div class="scene__header">
+            <h2>Snow</h2>
+            <span>intensity control</span>
+          </div>
+          <canvas id="scene-snow" width="360" height="220"></canvas>
+          <div class="scene__controls">
+            <label>
+              Intensity
+              <input id="snow-intensity" type="range" min="0" max="1" step="0.01" value="0.5" />
+              <span id="snow-value">50%</span>
+            </label>
+          </div>
+        </article>
+
+        <article class="scene">
+          <div class="scene__header">
+            <h2>Fireworks</h2>
+            <span>explosions + smoke + ash</span>
+          </div>
+          <canvas id="scene-firework" width="360" height="220"></canvas>
+          <div class="scene__controls">
+            <label>
+              Size
+              <input id="firework-size" type="range" min="0.3" max="1.2" step="0.01" value="0.7" />
+              <span id="firework-value">70%</span>
+            </label>
+          </div>
+        </article>
+      </section>
+
+      <footer class="footer">
+        Serve from the repo root: <code>python3 -m http.server --directory ..</code>
+        and open <code>http://localhost:8000/gpu-particles/demo/</code>.
+      </footer>
+    </main>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "@plasius/gpu-lock-free-queue": "../node_modules/@plasius/gpu-lock-free-queue/dist/index.js"
+        }
+      }
+    </script>
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>

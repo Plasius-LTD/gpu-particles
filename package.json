@@ -1,0 +1,74 @@
+{
+  "name": "@plasius/gpu-particles",
+  "version": "0.1.0",
+  "description": "Particle effect WGSL modules and helpers for @plasius/gpu-worker.",
+  "type": "module",
+  "sideEffects": false,
+  "private": false,
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "files": [
+    "dist",
+    "src",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "legal"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./effects/*": "./dist/effects/*",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "tsup && cp -R src/effects dist/effects",
+    "demo": "python3 -m http.server --directory ..",
+    "test": "npm run test:unit",
+    "test:unit": "node --test",
+    "test:e2e": "npx playwright install chromium && playwright test",
+    "test:coverage": "c8 --reporter=lcov --reporter=text node --test"
+  },
+  "keywords": [
+    "webgpu",
+    "particles",
+    "wgsl",
+    "gpu",
+    "compute",
+    "plasius"
+  ],
+  "author": "Plasius LTD <development@plasius.co.uk>",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@playwright/test": "^1.57.0",
+    "c8": "^10.1.3",
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Plasius-LTD/gpu-particles.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Plasius-LTD/gpu-particles/issues"
+  },
+  "homepage": "https://github.com/Plasius-LTD/gpu-particles#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "funding": [
+    {
+      "type": "patreon",
+      "url": "https://www.patreon.com/c/plasiusltd/membership"
+    },
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/Plasius-LTD"
+    }
+  ],
+  "dependencies": {
+    "@plasius/gpu-worker": "^0.1.2"
+  }
+}
