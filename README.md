@@ -1,6 +1,13 @@
 # @plasius/gpu-particles
 
-[![npm version](https://img.shields.io/npm/v/@plasius/gpu-particles)](https://www.npmjs.com/package/@plasius/gpu-particles)
+[![npm version](https://img.shields.io/npm/v/@plasius/gpu-particles.svg)](https://www.npmjs.com/package/@plasius/gpu-particles)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/Plasius-LTD/gpu-particles/ci.yml?branch=main&label=build&style=flat)](https://github.com/Plasius-LTD/gpu-particles/actions/workflows/ci.yml)
+[![coverage](https://img.shields.io/codecov/c/github/Plasius-LTD/gpu-particles)](https://codecov.io/gh/Plasius-LTD/gpu-particles)
+[![License](https://img.shields.io/github/license/Plasius-LTD/gpu-particles)](./LICENSE)
+[![Code of Conduct](https://img.shields.io/badge/code%20of%20conduct-yes-blue.svg)](./CODE_OF_CONDUCT.md)
+[![Security Policy](https://img.shields.io/badge/security%20policy-yes-orange.svg)](./SECURITY.md)
+[![Changelog](https://img.shields.io/badge/changelog-md-blue.svg)](./CHANGELOG.md)
+
 [![license](https://img.shields.io/github/license/Plasius-LTD/gpu-particles)](./LICENSE)
 
 Particle job WGSL modules designed to be assembled with `@plasius/gpu-worker`.
