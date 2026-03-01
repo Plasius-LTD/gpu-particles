@@ -1,6 +1,6 @@
 {
   "name": "@plasius/gpu-particles",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Particle effect WGSL modules and helpers for @plasius/gpu-worker.",
   "type": "module",
   "sideEffects": false,
