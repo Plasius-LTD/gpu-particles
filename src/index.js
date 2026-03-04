@@ -96,7 +96,7 @@ function getEffectJob(effect, key) {
   if (!job) {
     const available = effect.jobs.map((entry) => entry.key).join(", ");
     throw new Error(
-      `Unknown job \"${key}\" for effect \"${effect.name}\". ` +
+      `Unknown job "${key}" for effect "${effect.name}". ` +
         `Available: ${available}.`
     );
   }
@@ -107,7 +107,7 @@ export function getParticleEffect(name = defaultParticleEffect) {
   const effect = particleEffects[name];
   if (!effect) {
     const available = particleEffectNames.join(", ");
-    throw new Error(`Unknown particle effect \"${name}\". Available: ${available}.`);
+    throw new Error(`Unknown particle effect "${name}". Available: ${available}.`);
   }
   return effect;
 }
@@ -193,7 +193,7 @@ async function loadEffectJob(effect, job, fetcher) {
   const source = await loadWgslSource({ url: job.url, fetcher });
   if (typeof source !== "string") {
     throw new Error(
-      `Failed to load ${effect.name} job \"${job.key}\" WGSL source.`
+      `Failed to load ${effect.name} job "${job.key}" WGSL source.`
     );
   }
   return source;

@@ -76,6 +76,16 @@ npm run demo
 ```
 Then open `http://localhost:8000/gpu-particles/demo/`.
 
+## Development Checks
+
+```sh
+npm run lint
+npm run typecheck
+npm run test:coverage
+npm run build
+npm run pack:check
+```
+
 ## What this is
 - Effect-specific WGSL preludes plus per-job kernels.
 - Jobs designed to be appended into the gpu-worker WGSL assembly step.
