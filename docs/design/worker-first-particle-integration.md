@@ -11,11 +11,17 @@
 Each particle effect publishes a manifest with:
 
 - owner: `particles`
+- scheduler mode: `dag`
 - suggested allocation ids for key GPU resources
 - per-job worker, performance, and debug contracts
 
 Update jobs use the `simulation` queue class and render jobs use the `render`
 queue class so the runtime can balance them independently.
+
+Each job may also publish:
+
+- `priority` for ready-queue ordering
+- `dependencies` so render jobs wait behind effect-local update/layout work
 
 ## Consumer Usage
 
@@ -33,3 +39,10 @@ queue class so the runtime can balance them independently.
   degradation.
 - Text effects keep both jobs in the render lane because layout is purely
   visual.
+
+## DAG Guidance
+
+- Treat non-render jobs as the roots for each particle effect.
+- Publish render dependencies using the full manifest labels so the queue and
+  governor share one job namespace.
+- Keep priorities simple and bounded: update/layout roots ahead of render.

@@ -24,6 +24,7 @@ also need a stable way to discover:
 - worker job labels,
 - suggested performance budget ladders,
 - render versus simulation queue classes,
+- DAG scheduling metadata for effect-local ordering,
 - debug ownership and resource tags.
 
 ## Design
@@ -43,6 +44,9 @@ Each manifest job contains:
 
 - `worker.jobType`
 - `worker.queueClass`
+- `worker.priority`
+- `worker.dependencies[]`
+- `worker.schedulerMode`
 - `performance.id`
 - `performance.domain`
 - `performance.authority`
@@ -57,6 +61,8 @@ Each manifest job contains:
 - Reliability: unknown effect names fail fast.
 - Observability: queue classes and allocation ids create stable integration
   hooks.
+- Coordination: effect-local DAG metadata keeps render jobs aligned behind
+  update or layout stages.
 - Security: manifests are static local data with no network behavior.
 - Cost: bundle loaders reuse existing WGSL loader flows.
 

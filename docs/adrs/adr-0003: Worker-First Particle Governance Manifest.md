@@ -39,6 +39,8 @@ Each manifest records:
 
 - stable `jobType` values aligned with worker job labels,
 - render versus simulation queue classes,
+- `schedulerMode`, `priority`, and `dependencies` when particle jobs require
+  ordered staging,
 - suggested performance budget ladders for worker-budget adapters,
 - opt-in debug metadata such as owner, tags, and suggested allocation ids.
 
@@ -57,6 +59,8 @@ Each manifest records:
 
 - Consumers can load WGSL and governance metadata from one package surface.
 - Particle update and render work can be balanced independently.
+- Render work can stay behind update or layout stages without downstream graph
+  reconstruction.
 - Manifest presets will need tuning as real effect workloads mature.
 
 ---

@@ -75,10 +75,25 @@ console.log(bundle.preludeWgsl, bundle.jobs);
 // Contract-aligned metadata for gpu-performance and gpu-debug integrations
 console.log(bundle.workerManifest.jobs[0].performance.levels);
 console.log(bundle.workerManifest.jobs[0].debug);
+console.log(bundle.workerManifest.schedulerMode);
+console.log(bundle.workerManifest.jobs[0].worker.priority);
+console.log(bundle.workerManifest.jobs[0].worker.dependencies);
 
 const manifest = getParticleEffectWorkerManifest("rain");
 console.log(manifest.jobs.map((job) => job.worker.queueClass));
 ```
+
+## DAG Scheduling
+
+Particle worker manifests now publish `schedulerMode: "dag"` plus priorities
+and dependencies.
+
+- update/simulation/layout jobs start as roots for their effect.
+- render jobs wait for all non-render jobs in the same effect before they become
+  runnable.
+
+That keeps visual submission ordered behind simulation or layout work without
+introducing blocking coordination on the CPU.
 
 ## Effects
 - `fire` (default, torch-style flame + smoke)
@@ -119,4 +134,4 @@ npm run pack:check
 - `src/effects/*/*`: Effect-specific preludes and jobs.
 - `src/index.js`: URL helpers + WGSL loaders.
 - `docs/tdrs/*`: technical design records for worker manifests and debug hooks.
-- `docs/design/*`: integration guidance for worker budgets and debug metadata.
+- `docs/design/*`: integration guidance for worker budgets, DAG metadata, and debug instrumentation.

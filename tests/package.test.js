@@ -162,14 +162,19 @@ test("particle worker manifests expose performance and debug contracts", () => {
 
   const manifest = getParticleEffectWorkerManifest("fire");
   assert.equal(manifest.owner, "particles");
+  assert.equal(manifest.schedulerMode, "dag");
   assert.equal(manifest.jobs.length, particleEffects.fire.jobs.length);
 
   const physicsJob = manifest.jobs.find((job) => job.key === "physics");
   const renderJob = manifest.jobs.find((job) => job.key === "render");
 
   assert.equal(physicsJob.worker.queueClass, "simulation");
+  assert.equal(physicsJob.worker.priority, 3);
+  assert.deepEqual(physicsJob.worker.dependencies, []);
   assert.equal(physicsJob.performance.authority, "non-authoritative-simulation");
   assert.equal(renderJob.worker.queueClass, "render");
+  assert.equal(renderJob.worker.priority, 2);
+  assert.deepEqual(renderJob.worker.dependencies, ["particles.fire.physics"]);
   assert.equal(renderJob.performance.authority, "visual");
   assert.ok(renderJob.debug.suggestedAllocationIds.includes("particles.fire.indirect"));
 });

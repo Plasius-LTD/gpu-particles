@@ -12,10 +12,12 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
   - Worker governance manifests and bundle loaders that align particle jobs with
     `gpu-worker`, `gpu-performance`, and `gpu-debug` integration contracts.
   - ADR, TDR, and design documentation for worker-first particle integration.
+  - DAG scheduler metadata so render jobs can depend on simulation/layout jobs
+    within each particle effect.
 
 - **Changed**
   - README now documents particle worker manifests, performance budget ladders,
-    and debug metadata expectations for consumers.
+    DAG metadata, and debug metadata expectations for consumers.
 
 - **Fixed**
   - (placeholder)

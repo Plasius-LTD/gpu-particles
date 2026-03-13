@@ -652,6 +652,15 @@ export function getParticleEffect(name = defaultParticleEffect) {
 
 function buildWorkerManifestJob(effectName, job) {
   const spec = particleWorkerSpecPresets[effectName].jobs[job.key];
+  const dependencies =
+    job.key === "render"
+      ? Object.freeze(
+          getParticleEffect(effectName).jobs
+            .filter((entry) => entry.key !== "render")
+            .map((entry) => `particles.${effectName}.${entry.key}`)
+        )
+      : Object.freeze([]);
+  const priority = job.key === "render" ? 2 : 3;
 
   return Object.freeze({
     key: job.key,
@@ -659,6 +668,9 @@ function buildWorkerManifestJob(effectName, job) {
     worker: Object.freeze({
       jobType: job.label,
       queueClass: spec.queueClass,
+      priority,
+      dependencies,
+      schedulerMode: "dag",
     }),
     performance: Object.freeze({
       id: job.label,
@@ -686,6 +698,7 @@ function buildParticleWorkerManifest(name, effect) {
     schemaVersion: 1,
     owner: particleDebugOwner,
     effect: name,
+    schedulerMode: "dag",
     suggestedAllocationIds: Object.freeze([...spec.suggestedAllocationIds]),
     jobs: Object.freeze(effect.jobs.map((job) => buildWorkerManifestJob(name, job))),
   });
