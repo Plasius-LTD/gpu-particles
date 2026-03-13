@@ -91,6 +91,544 @@ export const particleEffectNames = Object.freeze(
 
 export const defaultParticleEffect = "fire";
 
+export const particleDebugOwner = "particles";
+export const particleWorkerQueueClasses = Object.freeze({
+  simulation: "simulation",
+  render: "render",
+});
+
+function buildWorkerBudgetLevels(jobType, queueClass, presets) {
+  return Object.freeze([
+    Object.freeze({
+      id: "low",
+      estimatedCostMs: presets.low.estimatedCostMs,
+      config: Object.freeze({
+        maxDispatchesPerFrame: presets.low.maxDispatchesPerFrame,
+        maxJobsPerDispatch: presets.low.maxJobsPerDispatch,
+        cadenceDivisor: presets.low.cadenceDivisor,
+        workgroupScale: presets.low.workgroupScale,
+        maxQueueDepth: presets.low.maxQueueDepth,
+        metadata: Object.freeze({
+          owner: particleDebugOwner,
+          queueClass,
+          jobType,
+          quality: "low",
+        }),
+      }),
+    }),
+    Object.freeze({
+      id: "medium",
+      estimatedCostMs: presets.medium.estimatedCostMs,
+      config: Object.freeze({
+        maxDispatchesPerFrame: presets.medium.maxDispatchesPerFrame,
+        maxJobsPerDispatch: presets.medium.maxJobsPerDispatch,
+        cadenceDivisor: presets.medium.cadenceDivisor,
+        workgroupScale: presets.medium.workgroupScale,
+        maxQueueDepth: presets.medium.maxQueueDepth,
+        metadata: Object.freeze({
+          owner: particleDebugOwner,
+          queueClass,
+          jobType,
+          quality: "medium",
+        }),
+      }),
+    }),
+    Object.freeze({
+      id: "high",
+      estimatedCostMs: presets.high.estimatedCostMs,
+      config: Object.freeze({
+        maxDispatchesPerFrame: presets.high.maxDispatchesPerFrame,
+        maxJobsPerDispatch: presets.high.maxJobsPerDispatch,
+        cadenceDivisor: presets.high.cadenceDivisor,
+        workgroupScale: presets.high.workgroupScale,
+        maxQueueDepth: presets.high.maxQueueDepth,
+        metadata: Object.freeze({
+          owner: particleDebugOwner,
+          queueClass,
+          jobType,
+          quality: "high",
+        }),
+      }),
+    }),
+  ]);
+}
+
+const particleWorkerSpecPresets = {
+  fire: {
+    suggestedAllocationIds: [
+      "particles.fire.state",
+      "particles.fire.indirect",
+      "particles.fire.render-state",
+    ],
+    jobs: {
+      physics: {
+        queueClass: particleWorkerQueueClasses.simulation,
+        authority: "non-authoritative-simulation",
+        importance: "high",
+        levels: buildWorkerBudgetLevels(
+          "particles.fire.physics",
+          particleWorkerQueueClasses.simulation,
+          {
+            low: {
+              estimatedCostMs: 0.5,
+              maxDispatchesPerFrame: 1,
+              maxJobsPerDispatch: 128,
+              cadenceDivisor: 2,
+              workgroupScale: 0.5,
+              maxQueueDepth: 256,
+            },
+            medium: {
+              estimatedCostMs: 1,
+              maxDispatchesPerFrame: 1,
+              maxJobsPerDispatch: 256,
+              cadenceDivisor: 1,
+              workgroupScale: 0.75,
+              maxQueueDepth: 512,
+            },
+            high: {
+              estimatedCostMs: 1.6,
+              maxDispatchesPerFrame: 2,
+              maxJobsPerDispatch: 512,
+              cadenceDivisor: 1,
+              workgroupScale: 1,
+              maxQueueDepth: 768,
+            },
+          }
+        ),
+        suggestedAllocationIds: ["particles.fire.state"],
+      },
+      render: {
+        queueClass: particleWorkerQueueClasses.render,
+        authority: "visual",
+        importance: "high",
+        levels: buildWorkerBudgetLevels(
+          "particles.fire.render",
+          particleWorkerQueueClasses.render,
+          {
+            low: {
+              estimatedCostMs: 0.3,
+              maxDispatchesPerFrame: 1,
+              maxJobsPerDispatch: 128,
+              cadenceDivisor: 2,
+              workgroupScale: 0.5,
+              maxQueueDepth: 256,
+            },
+            medium: {
+              estimatedCostMs: 0.7,
+              maxDispatchesPerFrame: 1,
+              maxJobsPerDispatch: 256,
+              cadenceDivisor: 1,
+              workgroupScale: 0.75,
+              maxQueueDepth: 512,
+            },
+            high: {
+              estimatedCostMs: 1.1,
+              maxDispatchesPerFrame: 2,
+              maxJobsPerDispatch: 512,
+              cadenceDivisor: 1,
+              workgroupScale: 1,
+              maxQueueDepth: 768,
+            },
+          }
+        ),
+        suggestedAllocationIds: [
+          "particles.fire.render-state",
+          "particles.fire.indirect",
+        ],
+      },
+    },
+  },
+  sparks: {
+    suggestedAllocationIds: ["particles.sparks.state", "particles.sparks.indirect"],
+    jobs: {
+      update: {
+        queueClass: particleWorkerQueueClasses.simulation,
+        authority: "non-authoritative-simulation",
+        importance: "medium",
+        levels: buildWorkerBudgetLevels(
+          "particles.sparks.update",
+          particleWorkerQueueClasses.simulation,
+          {
+            low: {
+              estimatedCostMs: 0.2,
+              maxDispatchesPerFrame: 1,
+              maxJobsPerDispatch: 64,
+              cadenceDivisor: 2,
+              workgroupScale: 0.5,
+              maxQueueDepth: 128,
+            },
+            medium: {
+              estimatedCostMs: 0.5,
+              maxDispatchesPerFrame: 1,
+              maxJobsPerDispatch: 128,
+              cadenceDivisor: 1,
+              workgroupScale: 0.75,
+              maxQueueDepth: 256,
+            },
+            high: {
+              estimatedCostMs: 0.8,
+              maxDispatchesPerFrame: 2,
+              maxJobsPerDispatch: 256,
+              cadenceDivisor: 1,
+              workgroupScale: 1,
+              maxQueueDepth: 384,
+            },
+          }
+        ),
+        suggestedAllocationIds: ["particles.sparks.state"],
+      },
+      render: {
+        queueClass: particleWorkerQueueClasses.render,
+        authority: "visual",
+        importance: "medium",
+        levels: buildWorkerBudgetLevels(
+          "particles.sparks.render",
+          particleWorkerQueueClasses.render,
+          {
+            low: {
+              estimatedCostMs: 0.2,
+              maxDispatchesPerFrame: 1,
+              maxJobsPerDispatch: 64,
+              cadenceDivisor: 2,
+              workgroupScale: 0.5,
+              maxQueueDepth: 128,
+            },
+            medium: {
+              estimatedCostMs: 0.4,
+              maxDispatchesPerFrame: 1,
+              maxJobsPerDispatch: 128,
+              cadenceDivisor: 1,
+              workgroupScale: 0.75,
+              maxQueueDepth: 256,
+            },
+            high: {
+              estimatedCostMs: 0.7,
+              maxDispatchesPerFrame: 2,
+              maxJobsPerDispatch: 256,
+              cadenceDivisor: 1,
+              workgroupScale: 1,
+              maxQueueDepth: 384,
+            },
+          }
+        ),
+        suggestedAllocationIds: ["particles.sparks.indirect"],
+      },
+    },
+  },
+  text: {
+    suggestedAllocationIds: ["particles.text.layout", "particles.text.indirect"],
+    jobs: {
+      layout: {
+        queueClass: particleWorkerQueueClasses.render,
+        authority: "visual",
+        importance: "medium",
+        levels: buildWorkerBudgetLevels(
+          "particles.text.layout",
+          particleWorkerQueueClasses.render,
+          {
+            low: {
+              estimatedCostMs: 0.2,
+              maxDispatchesPerFrame: 1,
+              maxJobsPerDispatch: 32,
+              cadenceDivisor: 2,
+              workgroupScale: 0.5,
+              maxQueueDepth: 64,
+            },
+            medium: {
+              estimatedCostMs: 0.4,
+              maxDispatchesPerFrame: 1,
+              maxJobsPerDispatch: 64,
+              cadenceDivisor: 1,
+              workgroupScale: 0.75,
+              maxQueueDepth: 128,
+            },
+            high: {
+              estimatedCostMs: 0.6,
+              maxDispatchesPerFrame: 1,
+              maxJobsPerDispatch: 128,
+              cadenceDivisor: 1,
+              workgroupScale: 1,
+              maxQueueDepth: 256,
+            },
+          }
+        ),
+        suggestedAllocationIds: ["particles.text.layout"],
+      },
+      render: {
+        queueClass: particleWorkerQueueClasses.render,
+        authority: "visual",
+        importance: "medium",
+        levels: buildWorkerBudgetLevels(
+          "particles.text.render",
+          particleWorkerQueueClasses.render,
+          {
+            low: {
+              estimatedCostMs: 0.2,
+              maxDispatchesPerFrame: 1,
+              maxJobsPerDispatch: 32,
+              cadenceDivisor: 2,
+              workgroupScale: 0.5,
+              maxQueueDepth: 64,
+            },
+            medium: {
+              estimatedCostMs: 0.3,
+              maxDispatchesPerFrame: 1,
+              maxJobsPerDispatch: 64,
+              cadenceDivisor: 1,
+              workgroupScale: 0.75,
+              maxQueueDepth: 128,
+            },
+            high: {
+              estimatedCostMs: 0.5,
+              maxDispatchesPerFrame: 1,
+              maxJobsPerDispatch: 128,
+              cadenceDivisor: 1,
+              workgroupScale: 1,
+              maxQueueDepth: 256,
+            },
+          }
+        ),
+        suggestedAllocationIds: ["particles.text.indirect"],
+      },
+    },
+  },
+  rain: {
+    suggestedAllocationIds: ["particles.rain.state", "particles.rain.indirect"],
+    jobs: {
+      update: {
+        queueClass: particleWorkerQueueClasses.simulation,
+        authority: "non-authoritative-simulation",
+        importance: "medium",
+        levels: buildWorkerBudgetLevels(
+          "particles.rain.update",
+          particleWorkerQueueClasses.simulation,
+          {
+            low: {
+              estimatedCostMs: 0.4,
+              maxDispatchesPerFrame: 1,
+              maxJobsPerDispatch: 96,
+              cadenceDivisor: 2,
+              workgroupScale: 0.5,
+              maxQueueDepth: 192,
+            },
+            medium: {
+              estimatedCostMs: 0.8,
+              maxDispatchesPerFrame: 1,
+              maxJobsPerDispatch: 192,
+              cadenceDivisor: 1,
+              workgroupScale: 0.75,
+              maxQueueDepth: 384,
+            },
+            high: {
+              estimatedCostMs: 1.1,
+              maxDispatchesPerFrame: 2,
+              maxJobsPerDispatch: 384,
+              cadenceDivisor: 1,
+              workgroupScale: 1,
+              maxQueueDepth: 512,
+            },
+          }
+        ),
+        suggestedAllocationIds: ["particles.rain.state"],
+      },
+      render: {
+        queueClass: particleWorkerQueueClasses.render,
+        authority: "visual",
+        importance: "medium",
+        levels: buildWorkerBudgetLevels(
+          "particles.rain.render",
+          particleWorkerQueueClasses.render,
+          {
+            low: {
+              estimatedCostMs: 0.2,
+              maxDispatchesPerFrame: 1,
+              maxJobsPerDispatch: 96,
+              cadenceDivisor: 2,
+              workgroupScale: 0.5,
+              maxQueueDepth: 192,
+            },
+            medium: {
+              estimatedCostMs: 0.4,
+              maxDispatchesPerFrame: 1,
+              maxJobsPerDispatch: 192,
+              cadenceDivisor: 1,
+              workgroupScale: 0.75,
+              maxQueueDepth: 384,
+            },
+            high: {
+              estimatedCostMs: 0.7,
+              maxDispatchesPerFrame: 2,
+              maxJobsPerDispatch: 384,
+              cadenceDivisor: 1,
+              workgroupScale: 1,
+              maxQueueDepth: 512,
+            },
+          }
+        ),
+        suggestedAllocationIds: ["particles.rain.indirect"],
+      },
+    },
+  },
+  snow: {
+    suggestedAllocationIds: ["particles.snow.state", "particles.snow.indirect"],
+    jobs: {
+      update: {
+        queueClass: particleWorkerQueueClasses.simulation,
+        authority: "non-authoritative-simulation",
+        importance: "medium",
+        levels: buildWorkerBudgetLevels(
+          "particles.snow.update",
+          particleWorkerQueueClasses.simulation,
+          {
+            low: {
+              estimatedCostMs: 0.3,
+              maxDispatchesPerFrame: 1,
+              maxJobsPerDispatch: 96,
+              cadenceDivisor: 2,
+              workgroupScale: 0.5,
+              maxQueueDepth: 192,
+            },
+            medium: {
+              estimatedCostMs: 0.6,
+              maxDispatchesPerFrame: 1,
+              maxJobsPerDispatch: 192,
+              cadenceDivisor: 1,
+              workgroupScale: 0.75,
+              maxQueueDepth: 384,
+            },
+            high: {
+              estimatedCostMs: 0.9,
+              maxDispatchesPerFrame: 2,
+              maxJobsPerDispatch: 384,
+              cadenceDivisor: 1,
+              workgroupScale: 1,
+              maxQueueDepth: 512,
+            },
+          }
+        ),
+        suggestedAllocationIds: ["particles.snow.state"],
+      },
+      render: {
+        queueClass: particleWorkerQueueClasses.render,
+        authority: "visual",
+        importance: "medium",
+        levels: buildWorkerBudgetLevels(
+          "particles.snow.render",
+          particleWorkerQueueClasses.render,
+          {
+            low: {
+              estimatedCostMs: 0.2,
+              maxDispatchesPerFrame: 1,
+              maxJobsPerDispatch: 96,
+              cadenceDivisor: 2,
+              workgroupScale: 0.5,
+              maxQueueDepth: 192,
+            },
+            medium: {
+              estimatedCostMs: 0.4,
+              maxDispatchesPerFrame: 1,
+              maxJobsPerDispatch: 192,
+              cadenceDivisor: 1,
+              workgroupScale: 0.75,
+              maxQueueDepth: 384,
+            },
+            high: {
+              estimatedCostMs: 0.6,
+              maxDispatchesPerFrame: 2,
+              maxJobsPerDispatch: 384,
+              cadenceDivisor: 1,
+              workgroupScale: 1,
+              maxQueueDepth: 512,
+            },
+          }
+        ),
+        suggestedAllocationIds: ["particles.snow.indirect"],
+      },
+    },
+  },
+  firework: {
+    suggestedAllocationIds: [
+      "particles.firework.state",
+      "particles.firework.smoke",
+      "particles.firework.indirect",
+    ],
+    jobs: {
+      update: {
+        queueClass: particleWorkerQueueClasses.simulation,
+        authority: "non-authoritative-simulation",
+        importance: "high",
+        levels: buildWorkerBudgetLevels(
+          "particles.firework.update",
+          particleWorkerQueueClasses.simulation,
+          {
+            low: {
+              estimatedCostMs: 0.6,
+              maxDispatchesPerFrame: 1,
+              maxJobsPerDispatch: 96,
+              cadenceDivisor: 2,
+              workgroupScale: 0.5,
+              maxQueueDepth: 192,
+            },
+            medium: {
+              estimatedCostMs: 1.2,
+              maxDispatchesPerFrame: 1,
+              maxJobsPerDispatch: 192,
+              cadenceDivisor: 1,
+              workgroupScale: 0.75,
+              maxQueueDepth: 384,
+            },
+            high: {
+              estimatedCostMs: 1.9,
+              maxDispatchesPerFrame: 2,
+              maxJobsPerDispatch: 384,
+              cadenceDivisor: 1,
+              workgroupScale: 1,
+              maxQueueDepth: 512,
+            },
+          }
+        ),
+        suggestedAllocationIds: ["particles.firework.state", "particles.firework.smoke"],
+      },
+      render: {
+        queueClass: particleWorkerQueueClasses.render,
+        authority: "visual",
+        importance: "high",
+        levels: buildWorkerBudgetLevels(
+          "particles.firework.render",
+          particleWorkerQueueClasses.render,
+          {
+            low: {
+              estimatedCostMs: 0.3,
+              maxDispatchesPerFrame: 1,
+              maxJobsPerDispatch: 96,
+              cadenceDivisor: 2,
+              workgroupScale: 0.5,
+              maxQueueDepth: 192,
+            },
+            medium: {
+              estimatedCostMs: 0.6,
+              maxDispatchesPerFrame: 1,
+              maxJobsPerDispatch: 192,
+              cadenceDivisor: 1,
+              workgroupScale: 0.75,
+              maxQueueDepth: 384,
+            },
+            high: {
+              estimatedCostMs: 1,
+              maxDispatchesPerFrame: 2,
+              maxJobsPerDispatch: 384,
+              cadenceDivisor: 1,
+              workgroupScale: 1,
+              maxQueueDepth: 512,
+            },
+          }
+        ),
+        suggestedAllocationIds: ["particles.firework.indirect"],
+      },
+    },
+  },
+};
+
 function getEffectJob(effect, key) {
   const job = effect.jobs.find((entry) => entry.key === key);
   if (!job) {
@@ -110,6 +648,67 @@ export function getParticleEffect(name = defaultParticleEffect) {
     throw new Error(`Unknown particle effect "${name}". Available: ${available}.`);
   }
   return effect;
+}
+
+function buildWorkerManifestJob(effectName, job) {
+  const spec = particleWorkerSpecPresets[effectName].jobs[job.key];
+
+  return Object.freeze({
+    key: job.key,
+    label: job.label,
+    worker: Object.freeze({
+      jobType: job.label,
+      queueClass: spec.queueClass,
+    }),
+    performance: Object.freeze({
+      id: job.label,
+      jobType: job.label,
+      queueClass: spec.queueClass,
+      domain: "particles",
+      authority: spec.authority,
+      importance: spec.importance,
+      levels: spec.levels,
+    }),
+    debug: Object.freeze({
+      owner: particleDebugOwner,
+      queueClass: spec.queueClass,
+      jobType: job.label,
+      tags: Object.freeze(["particles", effectName, job.key]),
+      suggestedAllocationIds: Object.freeze([...spec.suggestedAllocationIds]),
+    }),
+  });
+}
+
+function buildParticleWorkerManifest(name, effect) {
+  const spec = particleWorkerSpecPresets[name];
+
+  return Object.freeze({
+    schemaVersion: 1,
+    owner: particleDebugOwner,
+    effect: name,
+    suggestedAllocationIds: Object.freeze([...spec.suggestedAllocationIds]),
+    jobs: Object.freeze(effect.jobs.map((job) => buildWorkerManifestJob(name, job))),
+  });
+}
+
+export const particleWorkerManifests = Object.freeze(
+  Object.fromEntries(
+    Object.entries(particleEffects).map(([name, effect]) => [
+      name,
+      buildParticleWorkerManifest(name, effect),
+    ])
+  )
+);
+
+export function getParticleEffectWorkerManifest(
+  name = defaultParticleEffect
+) {
+  const manifest = particleWorkerManifests[name];
+  if (!manifest) {
+    const available = particleEffectNames.join(", ");
+    throw new Error(`Unknown particle effect "${name}". Available: ${available}.`);
+  }
+  return manifest;
 }
 
 const defaultEffect = getParticleEffect(defaultParticleEffect);
@@ -229,6 +828,21 @@ export async function loadParticleEffectJobs(effectName, options = {}) {
     sourceName: job.sourceName,
   }));
   return { preludeWgsl, jobs };
+}
+
+export async function loadParticleEffectWorkerBundle(
+  effectName = defaultParticleEffect,
+  options = {}
+) {
+  const effect = getParticleEffect(effectName);
+  const { preludeWgsl, jobs } = await loadParticleEffectJobs(effect.name, options);
+
+  return {
+    effect: effect.name,
+    preludeWgsl,
+    jobs,
+    workerManifest: getParticleEffectWorkerManifest(effect.name),
+  };
 }
 
 export async function loadParticlePreludeWgsl(options = {}) {

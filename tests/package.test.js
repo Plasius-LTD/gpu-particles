@@ -9,6 +9,7 @@ globalThis.__IMPORT_META_URL__ = new URL("../src/index.js", import.meta.url);
 const {
   defaultParticleEffect,
   getParticleEffect,
+  getParticleEffectWorkerManifest,
   particleEffectNames,
   particleEffects,
   particleJobLabels,
@@ -16,9 +17,11 @@ const {
   particlePreludeWgslUrl,
   particlePhysicsJobWgslUrl,
   particleRenderJobWgslUrl,
+  particleWorkerManifests,
   loadParticleEffectJobWgsl,
   loadParticleEffectJobs,
   loadParticleEffectPreludeWgsl,
+  loadParticleEffectWorkerBundle,
   loadParticleJobs,
   loadParticlePhysicsJobWgsl,
   loadParticlePreludeWgsl,
@@ -152,6 +155,31 @@ test("effect-specific loader APIs return expected bundles", async () => {
       (job) => typeof job.wgsl === "string" && job.wgsl.includes("process_job")
     )
   );
+});
+
+test("particle worker manifests expose performance and debug contracts", () => {
+  assert.ok(particleWorkerManifests.fire);
+
+  const manifest = getParticleEffectWorkerManifest("fire");
+  assert.equal(manifest.owner, "particles");
+  assert.equal(manifest.jobs.length, particleEffects.fire.jobs.length);
+
+  const physicsJob = manifest.jobs.find((job) => job.key === "physics");
+  const renderJob = manifest.jobs.find((job) => job.key === "render");
+
+  assert.equal(physicsJob.worker.queueClass, "simulation");
+  assert.equal(physicsJob.performance.authority, "non-authoritative-simulation");
+  assert.equal(renderJob.worker.queueClass, "render");
+  assert.equal(renderJob.performance.authority, "visual");
+  assert.ok(renderJob.debug.suggestedAllocationIds.includes("particles.fire.indirect"));
+});
+
+test("worker bundle loaders pair WGSL and manifests for an effect", async () => {
+  const bundle = await loadParticleEffectWorkerBundle("rain");
+  assert.equal(bundle.effect, "rain");
+  assert.equal(bundle.jobs.length, 2);
+  assert.equal(bundle.workerManifest.effect, "rain");
+  assert.equal(bundle.workerManifest.jobs.length, 2);
 });
 
 test("fetcher branch supports non-file effect URLs", async () => {

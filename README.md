@@ -59,6 +59,27 @@ const shaderCode = await assembleWorkerWgsl(workerWgsl, {
 });
 ```
 
+## Usage (worker governance bundle)
+
+```js
+import {
+  getParticleEffectWorkerManifest,
+  loadParticleEffectWorkerBundle,
+} from "@plasius/gpu-particles";
+
+const bundle = await loadParticleEffectWorkerBundle("firework");
+
+// WGSL payload for gpu-worker
+console.log(bundle.preludeWgsl, bundle.jobs);
+
+// Contract-aligned metadata for gpu-performance and gpu-debug integrations
+console.log(bundle.workerManifest.jobs[0].performance.levels);
+console.log(bundle.workerManifest.jobs[0].debug);
+
+const manifest = getParticleEffectWorkerManifest("rain");
+console.log(manifest.jobs.map((job) => job.worker.queueClass));
+```
+
 ## Effects
 - `fire` (default, torch-style flame + smoke)
 - `sparks` (burst scatter)
@@ -97,3 +118,5 @@ npm run pack:check
 - `src/effects/fire/render.job.wgsl`: Job kernel to build render worklists/indirect args.
 - `src/effects/*/*`: Effect-specific preludes and jobs.
 - `src/index.js`: URL helpers + WGSL loaders.
+- `docs/tdrs/*`: technical design records for worker manifests and debug hooks.
+- `docs/design/*`: integration guidance for worker budgets and debug metadata.
