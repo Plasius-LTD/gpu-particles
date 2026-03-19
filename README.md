@@ -128,6 +128,9 @@ npm run demo
 ```
 Then open `http://localhost:8000/gpu-particles/demo/`.
 
+The demo uses 2D canvas previews to visualize GPU particle state. It is not a
+full 3D world renderer, and now reports that display mode explicitly in the UI.
+
 ## Development Checks
 
 ```sh

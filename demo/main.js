@@ -1,4 +1,5 @@
 const statusEl = document.getElementById("status");
+const displayModeEl = document.getElementById("displayMode");
 
 function setStatus(message, tone = "info") {
   if (!statusEl) {
@@ -6,6 +7,14 @@ function setStatus(message, tone = "info") {
   }
   statusEl.textContent = message;
   statusEl.dataset.tone = tone;
+}
+
+function setDisplayMode(message, tone = "info") {
+  if (!displayModeEl) {
+    return;
+  }
+  displayModeEl.textContent = message;
+  displayModeEl.dataset.tone = tone;
 }
 
 async function fetchText(url) {
@@ -586,12 +595,20 @@ async function createScene(options) {
 async function main() {
   if (!navigator.gpu) {
     setStatus("WebGPU is not available in this browser.", "error");
+    setDisplayMode(
+      "Display mode unavailable: the demo uses 2D preview canvases, but their GPU-driven state cannot run without WebGPU.",
+      "error"
+    );
     return;
   }
 
   const adapter = await navigator.gpu.requestAdapter();
   if (!adapter) {
     setStatus("No WebGPU adapter found.", "error");
+    setDisplayMode(
+      "Display mode unavailable: 2D preview canvases are present, but no GPU adapter was found for the simulation pipeline.",
+      "error"
+    );
     return;
   }
 
@@ -785,6 +802,10 @@ async function main() {
   scenes.push(fireworkScene);
 
   setStatus("WebGPU ready. Running particle scenes.");
+  setDisplayMode(
+    "Display mode active: 2D canvas previews are visualizing GPU particle buffers, not a 3D scene render.",
+    "success"
+  );
 
   let lastTime = performance.now();
   async function frame(now) {
@@ -803,4 +824,8 @@ async function main() {
 main().catch((err) => {
   console.error(err);
   setStatus(`Error: ${err.message}`, "error");
+  setDisplayMode(
+    `Display mode interrupted: ${err.message}`,
+    "error"
+  );
 });
