@@ -90,6 +90,10 @@ export const particleEffectNames = Object.freeze(
 );
 
 export const defaultParticleEffect = "fire";
+export const particleSecondarySimulationModes = Object.freeze({
+  stableWorldSnapshot: "stable-world-snapshot",
+  standaloneVisual: "standalone-visual",
+});
 
 export const particleDebugOwner = "particles";
 export const particleWorkerQueueClasses = Object.freeze({
@@ -629,6 +633,61 @@ const particleWorkerSpecPresets = {
   },
 };
 
+const particleSecondarySimulationPolicySpecs = Object.freeze({
+  fire: Object.freeze({
+    mode: particleSecondarySimulationModes.stableWorldSnapshot,
+    required: true,
+    sourceOwner: "physics",
+    sourceStage: "worldSnapshot",
+    stability: "post-authoritative-commit",
+    frameBinding: "same-frame",
+    reason: "Fire effects react to resolved world motion and contact state.",
+  }),
+  sparks: Object.freeze({
+    mode: particleSecondarySimulationModes.stableWorldSnapshot,
+    required: true,
+    sourceOwner: "physics",
+    sourceStage: "worldSnapshot",
+    stability: "post-authoritative-commit",
+    frameBinding: "same-frame",
+    reason: "Sparks should reflect resolved impact and collision outcomes.",
+  }),
+  text: Object.freeze({
+    mode: particleSecondarySimulationModes.standaloneVisual,
+    required: false,
+    stability: "local-visual-state",
+    frameBinding: "self-authored",
+    reason: "Text particles are layout-driven and do not depend on world physics.",
+  }),
+  rain: Object.freeze({
+    mode: particleSecondarySimulationModes.stableWorldSnapshot,
+    required: true,
+    sourceOwner: "physics",
+    sourceStage: "worldSnapshot",
+    stability: "post-authoritative-commit",
+    frameBinding: "same-frame",
+    reason: "Rain splash and collision response should read resolved world state.",
+  }),
+  snow: Object.freeze({
+    mode: particleSecondarySimulationModes.stableWorldSnapshot,
+    required: true,
+    sourceOwner: "physics",
+    sourceStage: "worldSnapshot",
+    stability: "post-authoritative-commit",
+    frameBinding: "same-frame",
+    reason: "Snow drift and settling should consume stable world state.",
+  }),
+  firework: Object.freeze({
+    mode: particleSecondarySimulationModes.stableWorldSnapshot,
+    required: true,
+    sourceOwner: "physics",
+    sourceStage: "worldSnapshot",
+    stability: "post-authoritative-commit",
+    frameBinding: "same-frame",
+    reason: "Firework debris and smoke should react to resolved world motion.",
+  }),
+});
+
 function getEffectJob(effect, key) {
   const job = effect.jobs.find((entry) => entry.key === key);
   if (!job) {
@@ -693,12 +752,22 @@ function buildWorkerManifestJob(effectName, job) {
 
 function buildParticleWorkerManifest(name, effect) {
   const spec = particleWorkerSpecPresets[name];
+  const policy = particleSecondarySimulationPolicySpecs[name];
 
   return Object.freeze({
     schemaVersion: 1,
     owner: particleDebugOwner,
     effect: name,
     schedulerMode: "dag",
+    secondarySimulation: Object.freeze({
+      mode: policy.mode,
+      required: policy.required,
+      sourceOwner: policy.sourceOwner,
+      sourceStage: policy.sourceStage,
+      stability: policy.stability,
+      frameBinding: policy.frameBinding,
+      reason: policy.reason,
+    }),
     suggestedAllocationIds: Object.freeze([...spec.suggestedAllocationIds]),
     jobs: Object.freeze(effect.jobs.map((job) => buildWorkerManifestJob(name, job))),
   });
@@ -722,6 +791,54 @@ export function getParticleEffectWorkerManifest(
     throw new Error(`Unknown particle effect "${name}". Available: ${available}.`);
   }
   return manifest;
+}
+
+function resolveParticleStageRole(job) {
+  if (job.worker.queueClass === particleWorkerQueueClasses.simulation) {
+    return "secondary-simulation";
+  }
+
+  if (job.key === "render") {
+    return "render-submit";
+  }
+
+  return "visual-layout";
+}
+
+export function createParticleSecondarySimulationPlan(
+  effectName = defaultParticleEffect
+) {
+  const manifest = getParticleEffectWorkerManifest(effectName);
+
+  return Object.freeze({
+    effect: effectName,
+    schedulerMode: manifest.schedulerMode,
+    snapshotPolicy: Object.freeze({ ...manifest.secondarySimulation }),
+    rootJobIds: Object.freeze(
+      manifest.jobs
+        .filter((job) => job.worker.dependencies.length === 0)
+        .map((job) => job.performance.id)
+    ),
+    stages: Object.freeze(
+      manifest.jobs.map((job) =>
+        Object.freeze({
+          id: job.performance.id,
+          key: job.key,
+          role: resolveParticleStageRole(job),
+          queueClass: job.worker.queueClass,
+          authority: job.performance.authority,
+          priority: job.worker.priority,
+          dependencies: Object.freeze([...job.worker.dependencies]),
+        })
+      )
+    ),
+    degradationOrder: Object.freeze([
+      "updateCadence",
+      "workgroupScale",
+      "maxJobsPerDispatch",
+      "maxDispatchesPerFrame",
+    ]),
+  });
 }
 
 const defaultEffect = getParticleEffect(defaultParticleEffect);
@@ -855,6 +972,7 @@ export async function loadParticleEffectWorkerBundle(
     preludeWgsl,
     jobs,
     workerManifest: getParticleEffectWorkerManifest(effect.name),
+    secondarySimulationPlan: createParticleSecondarySimulationPlan(effect.name),
   };
 }
 

@@ -9,10 +9,14 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
 ## [Unreleased]
 
 - **Added**
-  - (placeholder)
+  - Secondary simulation plans that describe how particle effects consume stable
+    world snapshots or remain standalone visual effects.
+  - ADR, TDR, design docs, and tests for the stable snapshot integration
+    policy.
 
 - **Changed**
-  - (placeholder)
+  - Worker manifests now publish top-level `secondarySimulation` metadata so
+    integrators can wire effects against `physics.worldSnapshot` explicitly.
 
 - **Fixed**
   - (placeholder)

@@ -83,6 +83,22 @@ const manifest = getParticleEffectWorkerManifest("rain");
 console.log(manifest.jobs.map((job) => job.worker.queueClass));
 ```
 
+## Usage (secondary simulation plan)
+
+```js
+import {
+  createParticleSecondarySimulationPlan,
+  getParticleEffectWorkerManifest,
+} from "@plasius/gpu-particles";
+
+const plan = createParticleSecondarySimulationPlan("firework");
+const manifest = getParticleEffectWorkerManifest("firework");
+
+console.log(plan.snapshotPolicy.sourceStage);
+console.log(plan.rootJobIds);
+console.log(manifest.secondarySimulation.mode);
+```
+
 ## DAG Scheduling
 
 Particle worker manifests now publish `schedulerMode: "dag"` plus priorities
@@ -135,3 +151,4 @@ npm run pack:check
 - `src/index.js`: URL helpers + WGSL loaders.
 - `docs/tdrs/*`: technical design records for worker manifests and debug hooks.
 - `docs/design/*`: integration guidance for worker budgets, DAG metadata, and debug instrumentation.
+- `docs/design/secondary-simulation-integration.md`: stable-snapshot integration policy for world-reactive effects.

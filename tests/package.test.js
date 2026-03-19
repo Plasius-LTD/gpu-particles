@@ -7,6 +7,7 @@ import { fileURLToPath } from "node:url";
 const originalImportMetaUrl = globalThis.__IMPORT_META_URL__;
 globalThis.__IMPORT_META_URL__ = new URL("../src/index.js", import.meta.url);
 const {
+  createParticleSecondarySimulationPlan,
   defaultParticleEffect,
   getParticleEffect,
   getParticleEffectWorkerManifest,
@@ -17,6 +18,7 @@ const {
   particlePreludeWgslUrl,
   particlePhysicsJobWgslUrl,
   particleRenderJobWgslUrl,
+  particleSecondarySimulationModes,
   particleWorkerManifests,
   loadParticleEffectJobWgsl,
   loadParticleEffectJobs,
@@ -168,6 +170,11 @@ test("particle worker manifests expose performance and debug contracts", () => {
   const physicsJob = manifest.jobs.find((job) => job.key === "physics");
   const renderJob = manifest.jobs.find((job) => job.key === "render");
 
+  assert.equal(
+    manifest.secondarySimulation.mode,
+    particleSecondarySimulationModes.stableWorldSnapshot
+  );
+  assert.equal(manifest.secondarySimulation.sourceStage, "worldSnapshot");
   assert.equal(physicsJob.worker.queueClass, "simulation");
   assert.equal(physicsJob.worker.priority, 3);
   assert.deepEqual(physicsJob.worker.dependencies, []);
@@ -185,6 +192,33 @@ test("worker bundle loaders pair WGSL and manifests for an effect", async () => 
   assert.equal(bundle.jobs.length, 2);
   assert.equal(bundle.workerManifest.effect, "rain");
   assert.equal(bundle.workerManifest.jobs.length, 2);
+  assert.equal(bundle.secondarySimulationPlan.effect, "rain");
+  assert.equal(bundle.secondarySimulationPlan.snapshotPolicy.required, true);
+});
+
+test("secondary simulation plans describe stable snapshot requirements", () => {
+  const firePlan = createParticleSecondarySimulationPlan("fire");
+  const textPlan = createParticleSecondarySimulationPlan("text");
+
+  assert.equal(
+    firePlan.snapshotPolicy.mode,
+    particleSecondarySimulationModes.stableWorldSnapshot
+  );
+  assert.equal(firePlan.snapshotPolicy.sourceOwner, "physics");
+  assert.equal(firePlan.snapshotPolicy.sourceStage, "worldSnapshot");
+  assert.deepEqual(firePlan.rootJobIds, ["particles.fire.physics"]);
+  assert.deepEqual(
+    firePlan.stages.find((stage) => stage.key === "render").dependencies,
+    ["particles.fire.physics"]
+  );
+
+  assert.equal(
+    textPlan.snapshotPolicy.mode,
+    particleSecondarySimulationModes.standaloneVisual
+  );
+  assert.equal(textPlan.snapshotPolicy.required, false);
+  assert.equal(textPlan.snapshotPolicy.sourceStage, undefined);
+  assert.deepEqual(textPlan.rootJobIds, ["particles.text.layout"]);
 });
 
 test("fetcher branch supports non-file effect URLs", async () => {
