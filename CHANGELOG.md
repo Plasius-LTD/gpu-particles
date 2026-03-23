@@ -9,6 +9,20 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
 ## [Unreleased]
 
 - **Added**
+  - (placeholder)
+
+- **Changed**
+  - (placeholder)
+
+- **Fixed**
+  - (placeholder)
+
+- **Security**
+  - (placeholder)
+
+## [0.1.9] - 2026-03-23
+
+- **Added**
   - Secondary simulation plans that describe how particle effects consume stable
     world snapshots or remain standalone visual effects.
   - ADR, TDR, design docs, and tests for the stable snapshot integration
@@ -146,3 +160,4 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
 [0.1.6]: https://github.com/Plasius-LTD/gpu-particles/releases/tag/v0.1.6
 [0.1.7]: https://github.com/Plasius-LTD/gpu-particles/releases/tag/v0.1.7
 [0.1.8]: https://github.com/Plasius-LTD/gpu-particles/releases/tag/v0.1.8
+[0.1.9]: https://github.com/Plasius-LTD/gpu-particles/releases/tag/v0.1.9
