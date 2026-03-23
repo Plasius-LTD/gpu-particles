@@ -80,6 +80,7 @@
     }
   ],
   "dependencies": {
+    "@plasius/gpu-shared": "^0.1.2",
     "@plasius/gpu-worker": "^0.1.11"
   },
   "overrides": {
