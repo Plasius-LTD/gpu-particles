@@ -9,12 +9,15 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
 ## [Unreleased]
 
 - **Added**
+  - Exported `particleSecondarySimulationPolicies` so integrators can consume
+    the per-effect stable-snapshot contract directly alongside the derived
+    secondary simulation plans.
   - Contract tests that keep the demo on the public `@plasius/gpu-shared`
-    browser import surface.
+    browser import surface and lock the secondary simulation policy export.
 
 - **Changed**
-  - Updated the README to describe the live 3D particle scene and visible
-    worker-manifest state correctly.
+  - Updated the README to describe the live 3D particle scene, visible
+    worker-manifest state, and direct secondary simulation policy export.
 
 - **Fixed**
   - Removed the demo's deep import of `@plasius/gpu-shared` internals in favor

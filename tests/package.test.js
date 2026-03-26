@@ -18,6 +18,7 @@ const {
   particlePreludeWgslUrl,
   particlePhysicsJobWgslUrl,
   particleRenderJobWgslUrl,
+  particleSecondarySimulationPolicies,
   particleSecondarySimulationModes,
   particleWorkerManifests,
   loadParticleEffectJobWgsl,
@@ -219,6 +220,29 @@ test("secondary simulation plans describe stable snapshot requirements", () => {
   assert.equal(textPlan.snapshotPolicy.required, false);
   assert.equal(textPlan.snapshotPolicy.sourceStage, undefined);
   assert.deepEqual(textPlan.rootJobIds, ["particles.text.layout"]);
+});
+
+test("public secondary simulation policy export stays aligned with manifests and plans", () => {
+  for (const effectName of particleEffectNames) {
+    const policy = particleSecondarySimulationPolicies[effectName];
+    const manifest = getParticleEffectWorkerManifest(effectName);
+    const plan = createParticleSecondarySimulationPlan(effectName);
+
+    assert.deepEqual(plan.snapshotPolicy, manifest.secondarySimulation);
+    for (const [key, value] of Object.entries(policy)) {
+      assert.equal(manifest.secondarySimulation[key], value);
+      assert.equal(plan.snapshotPolicy[key], value);
+    }
+  }
+
+  assert.equal(
+    particleSecondarySimulationPolicies.fire.frameBinding,
+    "same-frame"
+  );
+  assert.equal(
+    particleSecondarySimulationPolicies.text.mode,
+    particleSecondarySimulationModes.standaloneVisual
+  );
 });
 
 test("fetcher branch supports non-file effect URLs", async () => {

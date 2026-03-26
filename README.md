@@ -89,15 +89,22 @@ console.log(manifest.jobs.map((job) => job.worker.queueClass));
 import {
   createParticleSecondarySimulationPlan,
   getParticleEffectWorkerManifest,
+  particleSecondarySimulationPolicies,
 } from "@plasius/gpu-particles";
 
 const plan = createParticleSecondarySimulationPlan("firework");
 const manifest = getParticleEffectWorkerManifest("firework");
+const fireworkPolicy = particleSecondarySimulationPolicies.firework;
 
 console.log(plan.snapshotPolicy.sourceStage);
 console.log(plan.rootJobIds);
 console.log(manifest.secondarySimulation.mode);
+console.log(fireworkPolicy.frameBinding);
 ```
+
+`particleSecondarySimulationPolicies` exposes the docs-first per-effect snapshot
+contract directly, while `createParticleSecondarySimulationPlan(...)` derives
+stage ordering and degradation behavior from the corresponding worker manifest.
 
 ## DAG Scheduling
 

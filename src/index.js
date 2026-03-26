@@ -633,7 +633,7 @@ const particleWorkerSpecPresets = {
   },
 };
 
-const particleSecondarySimulationPolicySpecs = Object.freeze({
+export const particleSecondarySimulationPolicies = Object.freeze({
   fire: Object.freeze({
     mode: particleSecondarySimulationModes.stableWorldSnapshot,
     required: true,
@@ -752,7 +752,7 @@ function buildWorkerManifestJob(effectName, job) {
 
 function buildParticleWorkerManifest(name, effect) {
   const spec = particleWorkerSpecPresets[name];
-  const policy = particleSecondarySimulationPolicySpecs[name];
+  const policy = particleSecondarySimulationPolicies[name];
 
   return Object.freeze({
     schemaVersion: 1,
