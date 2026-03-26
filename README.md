@@ -128,8 +128,11 @@ npm run demo
 ```
 Then open `http://localhost:8000/gpu-particles/demo/`.
 
-The demo uses 2D canvas previews to visualize GPU particle state. It is not a
-full 3D world renderer, and now reports that display mode explicitly in the UI.
+The demo mounts the shared `@plasius/gpu-shared` 3D harbor surface and rotates
+through particle effects in world space. Effect worker manifests, stable
+snapshot policy, root jobs, and render stages stay visible in context while
+`@plasius/gpu-particles` continues to own effect selection and worker metadata
+instead of a package-local 2D preview surface.
 
 ## Development Checks
 
@@ -147,6 +150,9 @@ npm run pack:check
 - Individual shaders/initializers split into separate WGSL modules for selective registration.
 
 ## Files
+- `demo/index.html`: Browser demo shell and import map for shared runtime wiring.
+- `demo/main.js`: Shared 3D harbor validation scene driven by particle effect
+  manifests and stable-snapshot policy.
 - `src/effects/fire/prelude.wgsl`: Shared particle data structs + helpers.
 - `src/effects/fire/physics.job.wgsl`: Job kernel to enqueue and integrate particles.
 - `src/effects/fire/render.job.wgsl`: Job kernel to build render worklists/indirect args.

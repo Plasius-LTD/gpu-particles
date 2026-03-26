@@ -258,6 +258,28 @@ test("fetcher branch surfaces HTTP failure details", async () => {
   );
 });
 
+test("demo imports gpu-shared through the public package surface", () => {
+  const demoSource = fs.readFileSync(path.resolve(projectRoot, "demo", "main.js"), "utf8");
+  const demoHtml = fs.readFileSync(path.resolve(projectRoot, "demo", "index.html"), "utf8");
+
+  assert.match(demoSource, /from "@plasius\/gpu-shared"/);
+  assert.doesNotMatch(demoSource, /node_modules\/@plasius\/gpu-shared\/dist/);
+  assert.match(demoHtml, /<script type="importmap">/);
+  assert.match(
+    demoHtml,
+    /"@plasius\/gpu-shared"\s*:\s*"\.\.\/node_modules\/@plasius\/gpu-shared\/dist\/index\.js"/,
+  );
+});
+
+test("README documents the live 3D particle demo", () => {
+  const readme = fs.readFileSync(path.resolve(projectRoot, "README.md"), "utf8");
+
+  assert.match(readme, /mounts the shared `@plasius\/gpu-shared` 3D harbor surface/i);
+  assert.match(readme, /rotates\s+through particle effects in world space/i);
+  assert.match(readme, /stable\s+snapshot policy, root jobs, and render stages stay visible in context/i);
+  assert.doesNotMatch(readme, /The demo uses 2D canvas previews/i);
+});
+
 test("fetcher branch rejects HTML payloads", async () => {
   const module = await importParticleModuleWithBase(
     new URL("https://particles.example/pkg/index.js"),
