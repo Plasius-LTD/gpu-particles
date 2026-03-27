@@ -15,31 +15,37 @@ const effectVisuals = {
     flagColor: { r: 0.86, g: 0.3, b: 0.16 },
     reflectionStrength: 0.2,
     waveAmplitude: 0.7,
+    lanternGlow: { r: 1, g: 0.54, b: 0.22 },
   },
   sparks: {
     flagColor: { r: 0.82, g: 0.46, b: 0.22 },
     reflectionStrength: 0.18,
     waveAmplitude: 0.68,
+    lanternGlow: { r: 0.98, g: 0.62, b: 0.26 },
   },
   text: {
     flagColor: { r: 0.74, g: 0.24, b: 0.2 },
     reflectionStrength: 0.12,
     waveAmplitude: 0.58,
+    moonHalo: "rgba(156, 182, 244, 0.18)",
   },
   rain: {
     flagColor: { r: 0.46, g: 0.58, b: 0.8 },
     reflectionStrength: 0.14,
     waveAmplitude: 0.82,
+    ambientMist: "rgba(60, 86, 128, 0.2)",
   },
   snow: {
     flagColor: { r: 0.88, g: 0.9, b: 0.96 },
     reflectionStrength: 0.16,
     waveAmplitude: 0.54,
+    moonHalo: "rgba(206, 224, 255, 0.22)",
   },
   firework: {
     flagColor: { r: 0.84, g: 0.28, b: 0.62 },
     reflectionStrength: 0.24,
     waveAmplitude: 0.72,
+    lanternGlow: { r: 0.9, g: 0.38, b: 0.66 },
   },
 };
 
@@ -107,7 +113,7 @@ await mountGpuShowcase({
   packageName: "@plasius/gpu-particles",
   title: "Particle Worker Harbor Validation",
   subtitle:
-    "A shared 3D harbor scene driven by gpu-particles effect manifests, stable-snapshot policy, and queue metadata.",
+    "A moonlit shared harbor scene driven by gpu-particles effect manifests, stable-snapshot policy, and queue metadata.",
   createState,
   updateState,
   describeState,
