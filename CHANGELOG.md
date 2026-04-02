@@ -9,6 +9,20 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
 ## [Unreleased]
 
 - **Added**
+  - (placeholder)
+
+- **Changed**
+  - (placeholder)
+
+- **Fixed**
+  - (placeholder)
+
+- **Security**
+  - (placeholder)
+
+## [0.1.10] - 2026-04-02
+
+- **Added**
   - Exported `particleSecondarySimulationPolicies` so integrators can consume
     the per-effect stable-snapshot contract directly alongside the derived
     secondary simulation plans.
@@ -167,3 +181,4 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
 [0.1.7]: https://github.com/Plasius-LTD/gpu-particles/releases/tag/v0.1.7
 [0.1.8]: https://github.com/Plasius-LTD/gpu-particles/releases/tag/v0.1.8
 [0.1.9]: https://github.com/Plasius-LTD/gpu-particles/releases/tag/v0.1.9
+[0.1.10]: https://github.com/Plasius-LTD/gpu-particles/releases/tag/v0.1.10
