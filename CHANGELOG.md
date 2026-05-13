@@ -20,6 +20,20 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
 - **Security**
   - (placeholder)
 
+## [0.1.12] - 2026-05-13
+
+- **Added**
+  - (placeholder)
+
+- **Changed**
+  - (placeholder)
+
+- **Fixed**
+  - (placeholder)
+
+- **Security**
+  - (placeholder)
+
 ## [0.1.11] - 2026-05-13
 
 - **Added**
@@ -197,3 +211,4 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
 [0.1.9]: https://github.com/Plasius-LTD/gpu-particles/releases/tag/v0.1.9
 [0.1.10]: https://github.com/Plasius-LTD/gpu-particles/releases/tag/v0.1.10
 [0.1.11]: https://github.com/Plasius-LTD/gpu-particles/releases/tag/v0.1.11
+[0.1.12]: https://github.com/Plasius-LTD/gpu-particles/releases/tag/v0.1.12
