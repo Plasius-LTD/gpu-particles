@@ -15,7 +15,8 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
   - (placeholder)
 
 - **Fixed**
-  - (placeholder)
+  - Replaced placeholder particle render jobs with active WGSL kernels in all
+    shipped effect modules and added placeholder-regression coverage.
 
 - **Security**
   - (placeholder)

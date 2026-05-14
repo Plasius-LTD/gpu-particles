@@ -101,6 +101,21 @@ test("particle job WGSL defines process_job entry points", () => {
   }
 });
 
+test("render jobs are implemented and not placeholder stubs", () => {
+  for (const effectName of particleEffectNames) {
+    const effect = particleEffects[effectName];
+    const render = effect.jobs.find((job) => job.key === "render");
+    assert.ok(render, `Missing render job for ${effectName}`);
+    const source = fs.readFileSync(urlToPath(render.url), "utf8");
+
+    assert.ok(!/placeholder/i.test(source), `Render job is placeholder for ${effectName}`);
+    assert.ok(!/let _ignore/.test(source), `Render job uses placeholder guard for ${effectName}`);
+    assert.match(source, /particle_index/);
+    assert.match(source, /arrayLength/);
+    assert.match(source, /payload_words == 0u/);
+  }
+});
+
 test("fire prelude WGSL includes shared structs", () => {
   const firePrelude = fs.readFileSync(
     path.resolve(

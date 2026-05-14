@@ -125,6 +125,7 @@ introducing blocking coordination on the CPU.
 - `rain` (falling streaks)
 - `snow` (drifting flakes)
 - `firework` (explosions with sparks, smoke, ash)
+- All listed effects now include non-placeholder GPU render jobs for worker scheduling.
 
 ## Demo
 Run the demo server from the repo root so the demo can import gpu-worker and the
