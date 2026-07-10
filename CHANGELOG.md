@@ -12,6 +12,20 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
   - (placeholder)
 
 - **Changed**
+  - (placeholder)
+
+- **Fixed**
+  - (placeholder)
+
+- **Security**
+  - (placeholder)
+
+## [0.1.17] - 2026-07-10
+
+- **Added**
+  - (placeholder)
+
+- **Changed**
   - Updated the stable `@plasius/gpu-shared` dependency to the 1.x public
     runtime line and `@plasius/gpu-worker` to the 0.3.x DAG-ready runtime line.
   - Refreshed direct development tooling to the latest stable Playwright,
@@ -248,3 +262,4 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
 [0.1.12]: https://github.com/Plasius-LTD/gpu-particles/releases/tag/v0.1.12
 [0.1.15]: https://github.com/Plasius-LTD/gpu-particles/releases/tag/v0.1.15
 [0.1.16]: https://github.com/Plasius-LTD/gpu-particles/releases/tag/v0.1.16
+[0.1.17]: https://github.com/Plasius-LTD/gpu-particles/releases/tag/v0.1.17
