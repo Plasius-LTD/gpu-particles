@@ -12,7 +12,12 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
   - (placeholder)
 
 - **Changed**
-  - (placeholder)
+  - Updated the stable `@plasius/gpu-shared` dependency to the 1.x public
+    runtime line and `@plasius/gpu-worker` to the 0.3.x DAG-ready runtime line.
+  - Refreshed direct development tooling to the latest stable Playwright,
+    ESLint, Globals, and TypeScript releases used by this package.
+  - Regenerated the lockfile from a clean Node 24 install and documented the
+    published runtime contract checks used by the package test suite.
 
 - **Fixed**
   - (placeholder)

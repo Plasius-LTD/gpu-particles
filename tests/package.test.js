@@ -212,6 +212,27 @@ test("worker bundle loaders pair WGSL and manifests for an effect", async () => 
   assert.equal(bundle.secondarySimulationPlan.snapshotPolicy.required, true);
 });
 
+test("published GPU runtime dependencies expose compatible public contracts", async () => {
+  const shared = await import("@plasius/gpu-shared");
+  const worker = await import("@plasius/gpu-worker");
+
+  assert.equal(typeof shared.mountGpuShowcase, "function");
+  assert.ok(shared.showcaseDemoModes.includes("harbor"));
+  assert.equal(typeof worker.assembleWorkerWgsl, "function");
+  assert.equal(typeof worker.loadWorkerWgsl, "function");
+
+  const workerWgsl = await worker.loadWorkerWgsl({
+    fetcher: async (url) => ({
+      ok: true,
+      async text() {
+        return fs.promises.readFile(url, "utf8");
+      },
+    }),
+  });
+  assert.match(workerWgsl, /@compute/);
+  assert.match(workerWgsl, /dequeue_job/);
+});
+
 test("secondary simulation plans describe stable snapshot requirements", () => {
   const firePlan = createParticleSecondarySimulationPlan("fire");
   const textPlan = createParticleSecondarySimulationPlan("text");
