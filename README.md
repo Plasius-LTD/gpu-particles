@@ -21,6 +21,11 @@ Apache-2.0. ESM + CJS builds. WGSL assets are published in `dist/`.
 npm install @plasius/gpu-particles
 ```
 
+The package is validated against the current stable `@plasius/gpu-shared` 1.x
+and `@plasius/gpu-worker` 0.3.x runtime lines. The demo consumes their public
+package exports, including the shared 3D showcase surface and worker WGSL
+assembly helpers.
+
 ## Usage (default effect)
 ```js
 import {
