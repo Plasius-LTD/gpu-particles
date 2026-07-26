@@ -80,10 +80,12 @@
     }
   ],
   "dependencies": {
-    "@plasius/gpu-shared": "^1.0.12",
+    "@plasius/gpu-shared": "^1.0.14",
     "@plasius/gpu-worker": "^0.3.4"
   },
   "overrides": {
+    "brace-expansion": "^5.0.8",
+    "esbuild": "^0.28.1",
     "minimatch": "^10.2.1"
   },
   "engines": {
