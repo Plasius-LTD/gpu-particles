@@ -4,3 +4,4 @@
 - [Architectural Decision Record (ADR)](./adr-0002:%20Effect%20Catalog%20and%20Job%20Separation.md)
 - [Architectural Decision Record (ADR)](./adr-0003:%20Worker-First%20Particle%20Governance%20Manifest.md)
 - [ADR-0004: Secondary Simulation over Stable Snapshots](./adr-0004-secondary-simulation-over-stable-snapshots.md)
+- [ADR-0005: Hosted OIDC Package Publication](./adr-0005-hosted-oidc-package-publication.md)
