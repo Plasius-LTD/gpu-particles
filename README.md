@@ -8,8 +8,6 @@
 [![Security Policy](https://img.shields.io/badge/security%20policy-yes-orange.svg)](./SECURITY.md)
 [![Changelog](https://img.shields.io/badge/changelog-md-blue.svg)](./CHANGELOG.md)
 
-[![license](https://img.shields.io/github/license/Plasius-LTD/gpu-particles)](./LICENSE)
-
 Particle job WGSL modules designed to be assembled with `@plasius/gpu-worker`.
 Each effect ships a prelude and one or more job WGSL modules that define
 `process_job` and are intended to be appended via `assembleWorkerWgsl`.
