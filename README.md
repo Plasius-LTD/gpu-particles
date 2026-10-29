@@ -177,9 +177,25 @@ npm run pack:check
 ## Release integrity
 
 CI keeps the administrative contributor registry outside Git and npm package
-artifacts using exact, case-normalised path checks. CI runs on explicit
-GitHub-hosted runners. Publication uses the GitHub-hosted `production` job with
+artifacts using exact, case-normalised path checks. Both CI jobs use the
+`Public CI - Quarantined` group with literal `[self-hosted, Linux, X64]` labels.
+Only branch pushes and manual branch dispatches in this repository are admitted;
+pull-request events, forks and tags cannot enter these jobs. The runner group
+separately admits approved workflow refs; a feature branch requires reviewed,
+immutable source and scoped admission before validation. Missing capacity or
+admission blocks CI without a hosted fallback. Checkouts do not retain Git
+credentials or restore package-manager caches. Job timeouts and per-ref
+concurrency bound stale work.
+
+Publication uses the GitHub-hosted `production` job with
 Node 24 and a pinned npm 11.6.2 client. It is token-free and proceeds only while the prepared SHA
 is the exact `main` head after successful push-triggered CI. Do not dispatch CD
 until the npm trusted-publisher binding is verified.
+
+Feature `platform.public-artifact-integrity.enabled` is controlled by the stored
+backend feature-flag evaluator for staged restoration. Mandatory source, artifact
+and workflow gates always run independently of that flag. Rollback disables the
+affected workflow or publication channel and removes temporary runner admission;
+it never restores the prohibited administrative path or switches CI to hosted
+capacity. See [ADR-0006](docs/adrs/adr-0006-trusted-push-self-hosted-ci.md).
 <!-- END PLASIUS RELEASE INTEGRITY -->

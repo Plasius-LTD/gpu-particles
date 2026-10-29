@@ -1,6 +1,6 @@
 # ADR-0005: Hosted OIDC Package Publication
 
-- Status: Accepted
+- Status: Accepted; CI scheduling superseded by ADR-0006
 - Date: 2026-08-11
 
 ## Context
@@ -16,7 +16,9 @@ Publish only from the GitHub-hosted `production` job using npm trusted
 publishing. Prove the prepared SHA is still the exact remote `main` head and
 that push-triggered `ci.yml` succeeded for it. Require Node 24 and npm 11.5.1 or
 newer, request provenance, and prohibit npm write-token fallbacks. Reviewed CI
-uses explicit GitHub-hosted runners.
+uses the self-hosted scheduling boundary defined in
+[ADR-0006](./adr-0006-trusted-push-self-hosted-ci.md), which supersedes this
+record's previous hosted-CI decision. Publication remains GitHub-hosted.
 
 ## Consequences
 
