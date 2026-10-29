@@ -16,11 +16,15 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
  - (placeholder)
 
 - **Fixed**
+  - Restored trusted branch CI on approved quarantined self-hosted capacity,
+    with regression coverage for rejected PR, fork and tag events.
   - Added exact-commit manual CI validation and disabled package-manager cache
     finalization in both hosted jobs.
   - (placeholder)
 
 - **Security**
+  - Updated the transitive brace-expansion override from 5.0.9 to 5.0.12 to
+    resolve the denial-of-service advisories blocking full dependency audit.
   - Pinned patched transitive npm dependencies to clear the current audit baseline.
   - Added fail-closed source and npm-package admission for the administrative contributor registry and pinned the CI/CD runtime to Node.js 24.18.0 LTS.
   - (placeholder)
