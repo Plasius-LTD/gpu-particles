@@ -8,27 +8,24 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
 
 ## [Unreleased]
 
-- **Added**
-  - (placeholder)
+### Fixed
+
+- Restore automatic schema-template npm publication and validate renewed trusted publishing with a sealed package inventory.
 
 - **Changed**
   - Refreshed compatible @plasius/* lockfile resolutions to the latest published releases.
- - (placeholder)
 
 - **Fixed**
   - Added exact-commit manual CI validation and disabled package-manager cache
     finalization in both hosted jobs.
-  - (placeholder)
 
 - **Security**
   - Pinned patched transitive npm dependencies to clear the current audit baseline.
   - Added fail-closed source and npm-package admission for the administrative contributor registry and pinned the CI/CD runtime to Node.js 24.18.0 LTS.
-  - (placeholder)
 
 ## [0.1.17] - 2026-07-10
 
 - **Added**
-  - (placeholder)
 
 - **Changed**
   - Updated the stable `@plasius/gpu-shared` dependency to the 1.x public
@@ -39,67 +36,50 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
     published runtime contract checks used by the package test suite.
 
 - **Fixed**
-  - (placeholder)
 
 - **Security**
-  - (placeholder)
 
 ## [0.1.16] - 2026-06-22
 
 - **Added**
-  - (placeholder)
 
 - **Changed**
-  - (placeholder)
 
 - **Fixed**
-  - (placeholder)
 
 - **Security**
-  - (placeholder)
 
 ## [0.1.15] - 2026-06-22
 
 - **Added**
-  - (placeholder)
 
 - **Changed**
-  - (placeholder)
 
 - **Fixed**
   - Replaced placeholder particle render jobs with active WGSL kernels in all
     shipped effect modules and added placeholder-regression coverage.
 
 - **Security**
-  - (placeholder)
 
 ## [0.1.12] - 2026-05-13
 
 - **Added**
-  - (placeholder)
 
 - **Changed**
-  - (placeholder)
 
 - **Fixed**
-  - (placeholder)
 
 - **Security**
-  - (placeholder)
 
 ## [0.1.11] - 2026-05-13
 
 - **Added**
-  - (placeholder)
 
 - **Changed**
-  - (placeholder)
 
 - **Fixed**
-  - (placeholder)
 
 - **Security**
-  - (placeholder)
 
 ## [0.1.10] - 2026-04-02
 
@@ -119,7 +99,6 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
     of an import-map-backed package import.
 
 - **Security**
-  - (placeholder)
 
 ## [0.1.9] - 2026-03-23
 
@@ -134,15 +113,12 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
     integrators can wire effects against `physics.worldSnapshot` explicitly.
 
 - **Fixed**
-  - (placeholder)
 
 - **Security**
-  - (placeholder)
 
 ## [0.1.8] - 2026-03-14
 
 - **Added**
-  - (placeholder)
 
 - **Changed**
   - Raised the minimum `@plasius/gpu-worker` dependency to `^0.1.10` so npm
@@ -152,10 +128,8 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
     the Codecov CLI.
 
 - **Fixed**
-  - (placeholder)
 
 - **Security**
-  - (placeholder)
 
 ## [0.1.7] - 2026-03-13
 
@@ -171,24 +145,18 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
     DAG metadata, and debug metadata expectations for consumers.
 
 - **Fixed**
-  - (placeholder)
 
 - **Security**
-  - (placeholder)
 
 ## [0.1.6] - 2026-03-04
 
 - **Added**
-  - (placeholder)
 
 - **Changed**
-  - (placeholder)
 
 - **Fixed**
-  - (placeholder)
 
 - **Security**
-  - (placeholder)
 
 ## [0.1.2] - 2026-03-01
 
@@ -207,30 +175,22 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
 ## [0.1.1] - 2026-02-28
 
 - **Added**
-  - (placeholder)
 
 - **Changed**
-  - (placeholder)
 
 - **Fixed**
-  - (placeholder)
 
 - **Security**
-  - (placeholder)
 
 ## [0.1.0] - 2026-01-29
 
 - **Added**
-  - (placeholder)
 
 - **Changed**
-  - (placeholder)
 
 - **Fixed**
-  - (placeholder)
 
 - **Security**
-  - (placeholder)
 
 ## [0.1.0] - 2026-01-29
 
@@ -249,13 +209,10 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
   - Initial release.
 
 - **Changed**
-  - (placeholder)
 
 - **Fixed**
-  - (placeholder)
 
 - **Security**
-  - (placeholder)
 [0.1.1]: https://github.com/Plasius-LTD/gpu-particles/releases/tag/v0.1.1
 [0.1.2]: https://github.com/Plasius-LTD/gpu-particles/releases/tag/v0.1.2
 [0.1.6]: https://github.com/Plasius-LTD/gpu-particles/releases/tag/v0.1.6
