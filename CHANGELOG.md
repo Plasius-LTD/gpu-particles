@@ -8,6 +8,8 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
 
 ## [Unreleased]
 
+## [0.1.18] - 2026-11-17
+
 ### Fixed
 
 - Restore automatic schema-template npm publication and validate renewed trusted publishing with a sealed package inventory.
@@ -225,3 +227,6 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
 [0.1.15]: https://github.com/Plasius-LTD/gpu-particles/releases/tag/v0.1.15
 [0.1.16]: https://github.com/Plasius-LTD/gpu-particles/releases/tag/v0.1.16
 [0.1.17]: https://github.com/Plasius-LTD/gpu-particles/releases/tag/v0.1.17
+
+[Unreleased]: https://github.com/Plasius-LTD/gpu-particles/compare/v0.1.18...HEAD
+[0.1.18]: https://github.com/Plasius-LTD/gpu-particles/releases/tag/v0.1.18
