@@ -8,6 +8,10 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
 
 ## [Unreleased]
 
+- Keep published shader paths stable across repeated builds by copying effect directory contents into the existing output directory.
+
+- Consume the verified upstream security releases from the weekly dependency rollout; retain existing runtime contracts.
+
 ## [0.1.19] - 2026-11-22
 
 - Refresh npm dependencies and patched glob/minimatch resolutions in coverage tooling.
